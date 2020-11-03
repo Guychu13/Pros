@@ -10,7 +10,7 @@ import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable{
 
-    private Thread gameTread;
+    protected Thread gameTread;
     private Block myBlock;
     private Background gameBackground;
     public GameView(Context context, int windowHeight, int windowWidth, int myPlayerSkinImageID) {
@@ -34,8 +34,8 @@ public class GameView extends SurfaceView implements Runnable{
         while (true){
             drawSurface();
             move();
-//            if (player.checkCollision(obstacle)) {
-//                gameOver = true;
+//            if (Thread.currentThread().isInterrupted()) {
+//                break;
 //            }
         }
     }
@@ -43,11 +43,14 @@ public class GameView extends SurfaceView implements Runnable{
     private void drawSurface() {
         if(getHolder().getSurface().isValid()){
             Canvas canvas = getHolder().lockCanvas();
-            gameBackground.draw(canvas);
-            myBlock.draw(canvas);
-            getHolder().unlockCanvasAndPost(canvas);
+            if(canvas != null){
+                gameBackground.draw(canvas);
+                myBlock.draw(canvas);
+                getHolder().unlockCanvasAndPost(canvas);
+            }
         }
     }
+
 
 
     private void move() {
@@ -64,7 +67,6 @@ public class GameView extends SurfaceView implements Runnable{
                 myBlock.goToTarget(myBlock.xPos, myBlock.yPos);
                 break;
         }
-
         return true;
     }
 }

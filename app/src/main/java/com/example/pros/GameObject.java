@@ -2,6 +2,7 @@ package com.example.pros;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public abstract class GameObject {
 
@@ -15,7 +16,10 @@ public abstract class GameObject {
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(bitmap, xPos, yPos, null);
+        Paint paint = new Paint();
+        if(canvas != null){
+            canvas.drawBitmap(bitmap, xPos, yPos, paint);
+        }
     }
 
     public abstract void move();

@@ -29,4 +29,16 @@ public class GameScreenActivity extends AppCompatActivity {
         gameView = new GameView(this, windowHeight, windowWidth, chosenSkinImageId);
         frameLayout.addView(gameView);
     }
+
+//    @Override
+//    public void onPause(){
+//        super.onPause();
+//        gameView.gameTread.interrupt();
+//        finish();
+//    }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 }

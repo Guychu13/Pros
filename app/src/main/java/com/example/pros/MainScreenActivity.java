@@ -22,7 +22,6 @@ public class MainScreenActivity extends AppCompatActivity {
 
     private User user;
     private String userName;
-    private Integer chosenSkinInt;
 
     private TextView userGreet;
     private ImageButton skinsButton;
@@ -41,7 +40,6 @@ public class MainScreenActivity extends AppCompatActivity {
         final int skinImageID = intentSkinChosen.getIntExtra("chosenSkinImageId", 0);
         if(skinImageID != 0){
             currentSkin.setImageResource(skinImageID);
-//            user.setChosenSkinImageId(skinImageID);
         }
 
         mAuth = FirebaseAuth.getInstance();
@@ -88,6 +86,10 @@ public class MainScreenActivity extends AppCompatActivity {
                 userGreet = findViewById(R.id.textView_mainScreen_usernameGreet);
                 userGreet.setText("Hello, " + userName);
 
+                if(skinImageID != 0){
+                    user.setChosenSkinImageId(skinImageID);
+                }
+                currentSkin.setImageResource(user.getChosenSkinImageId());
             }
 
             @Override
