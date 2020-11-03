@@ -42,7 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(context, MainScreenActivity.class);
                 intent.putExtra("chosenSkinImageId", skins.get(position).getImage());
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("isFromSkinsScreen", true);
                 context.startActivity(intent);
             }
         });

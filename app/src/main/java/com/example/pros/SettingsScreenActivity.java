@@ -51,8 +51,8 @@ public class SettingsScreenActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent i = new Intent(SettingsScreenActivity.this, MainScreenActivity.class);
-        finish();
         startActivity(i);
+        finish();
     }
 
 }

@@ -59,8 +59,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="@+id/guidelineVerticalLeft"
-        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalUp"
-        app:srcCompat="@drawable/skin_basic" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontalUp">
+
+    </ImageView>
+<!--        app:srcCompat="@drawable/skin_basic" />-->
 
     <ImageButton
         android:id="@+id/imageButton_mainScreen_joinButton"

@@ -30,6 +30,8 @@ public class MainScreenActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
 
+    private int currentSkinImageId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +39,11 @@ public class MainScreenActivity extends AppCompatActivity {
 
         currentSkin = findViewById(R.id.imageView_mainScreen_chosenSkin);
         Intent intentSkinChosen = getIntent();
-        final int skinImageID = intentSkinChosen.getIntExtra("chosenSkinImageId", 0);
-        if(skinImageID != 0){
-            currentSkin.setImageResource(skinImageID);
+        final int skinImageIdFromSkinsScreen = intentSkinChosen.getIntExtra("chosenSkinImageId", 0);
+        final boolean isFromSkinsScreen = intentSkinChosen.getBooleanExtra("isFromSkinsScreen", false);
+        if(skinImageIdFromSkinsScreen != 0 && isFromSkinsScreen){
+            currentSkin.setImageResource(skinImageIdFromSkinsScreen);
+            currentSkinImageId = skinImageIdFromSkinsScreen;
         }
 
         mAuth = FirebaseAuth.getInstance();
@@ -65,11 +69,11 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent toGameIntent = new Intent(MainScreenActivity.this, GameScreenActivity.class);
-                if(skinImageID == 0){
+                if(skinImageIdFromSkinsScreen == 0){
                     toGameIntent.putExtra("chosenSkinImageId", R.drawable.skin_basic);
                 }
                 else{
-                    toGameIntent.putExtra("chosenSkinImageId", skinImageID);
+                    toGameIntent.putExtra("chosenSkinImageId", skinImageIdFromSkinsScreen);
                 }
                 startActivity(toGameIntent);
             }
@@ -86,10 +90,11 @@ public class MainScreenActivity extends AppCompatActivity {
                 userGreet = findViewById(R.id.textView_mainScreen_usernameGreet);
                 userGreet.setText("Hello, " + userName);
 
-                if(skinImageID != 0){
-                    user.setChosenSkinImageId(skinImageID);
+                if(isFromSkinsScreen && skinImageIdFromSkinsScreen != 0){
+                    user.setChosenSkinImageId(currentSkinImageId);
                 }
-                currentSkin.setImageResource(user.getChosenSkinImageId());
+                int skinID = user.getChosenSkinImageId();
+                currentSkin.setImageResource(skinID);
             }
 
             @Override
