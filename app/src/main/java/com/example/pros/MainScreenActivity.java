@@ -109,6 +109,12 @@ public class MainScreenActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     public void onBackPressed() {
 
     }
