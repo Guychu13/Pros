@@ -7,12 +7,14 @@ import android.graphics.Paint;
 public abstract class GameObject {
 
     protected Bitmap bitmap;
-    protected int xPos, yPos;
+    protected int xPos, yPos, windowWidth, windowHeigth;
 
-    public GameObject(Bitmap bitmap, int xPos, int yPos) {
+    public GameObject(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
         this.bitmap = bitmap;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.windowWidth = windowWidth;
+        this.windowHeigth = windowHeight;
     }
 
     public void draw(Canvas canvas){

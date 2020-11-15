@@ -7,8 +7,8 @@ public class Block extends GameObject {
 
     float xTarget;
 
-    public Block(Bitmap bitmap, int xPos, int yPos) {
-        super(bitmap, xPos, yPos);
+    public Block(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
+        super(bitmap, xPos, yPos, windowWidth, windowHeight);
         xTarget = xPos;
     }
 
