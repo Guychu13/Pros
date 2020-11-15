@@ -29,13 +29,13 @@ public class MainScreenActivity extends AppCompatActivity {
     private ImageView currentSkin;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
-
     private int currentSkinImageId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
+
 
         currentSkin = findViewById(R.id.imageView_mainScreen_chosenSkin);
         Intent intentSkinChosen = getIntent();
@@ -100,7 +100,7 @@ public class MainScreenActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
-            }
+          }
         });
     }
 

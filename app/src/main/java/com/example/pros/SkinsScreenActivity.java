@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,6 +20,7 @@ public class SkinsScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.skins_screen);
+
 
         Skin basic = new Skin("Basic", "Your Default Skin.", true, true, R.drawable.skin_basic, 0);
         Skin peace = new Skin("Peace", "Play 3 matches.", false, false, R.drawable.skin_peace, 0);
@@ -50,4 +52,5 @@ public class SkinsScreenActivity extends AppCompatActivity {
             }
         });
     }
+
 }

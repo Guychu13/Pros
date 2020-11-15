@@ -16,13 +16,13 @@ import java.util.TimerTask;
 
 public class LoadingActivity extends AppCompatActivity {
 
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_screen);
-
-        startService(new Intent(getApplicationContext(), AppService.class));
-
+        intent = new Intent(getApplicationContext(), AppService.class);
+        startService(intent);
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -30,5 +30,8 @@ public class LoadingActivity extends AppCompatActivity {
                 finish();
             }
         }, 3000);
+
     }
+
+
 }

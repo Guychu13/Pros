@@ -15,7 +15,6 @@ public class GameScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen);
-
         frameLayout = findViewById(R.id.frameLayout_gameScreen_gameFrameLayout);
         Intent fromMainScreenIntent = getIntent();
         chosenSkinImageId = fromMainScreenIntent.getIntExtra("chosenSkinImageId", 0);
@@ -41,4 +40,5 @@ public class GameScreenActivity extends AppCompatActivity {
 //    public void onBackPressed() {
 //
 //    }
+
 }
