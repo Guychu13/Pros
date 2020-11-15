@@ -1,6 +1,8 @@
 package com.example.pros;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -31,23 +33,19 @@ public class MainScreenActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private int currentSkinImageId;
 
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
 
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
 
         currentSkin = findViewById(R.id.imageView_mainScreen_chosenSkin);
         Intent intentSkinChosen = getIntent();
         final int skinImageIdFromSkinsScreen = intentSkinChosen.getIntExtra("chosenSkinImageId", 0);
         final boolean isFromSkinsScreen = intentSkinChosen.getBooleanExtra("isFromSkinsScreen", false);
-        if(skinImageIdFromSkinsScreen != 0 && isFromSkinsScreen){
-            currentSkin.setImageResource(skinImageIdFromSkinsScreen);
-            currentSkinImageId = skinImageIdFromSkinsScreen;
-        }
-
-        mAuth = FirebaseAuth.getInstance();
-        firebaseUser = mAuth.getCurrentUser();
 
         currentSkin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +78,7 @@ public class MainScreenActivity extends AppCompatActivity {
         });
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Pros").child("users").child(firebaseUser.getUid());
+        final DatabaseReference myRef = database.getReference().child("Pros").child("users").child(firebaseUser.getUid());
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -90,11 +88,14 @@ public class MainScreenActivity extends AppCompatActivity {
                 userGreet = findViewById(R.id.textView_mainScreen_usernameGreet);
                 userGreet.setText("Hello, " + userName);
 
-                if(isFromSkinsScreen && skinImageIdFromSkinsScreen != 0){
+                if(skinImageIdFromSkinsScreen != 0 && isFromSkinsScreen){
+                    currentSkinImageId = skinImageIdFromSkinsScreen;
                     user.setChosenSkinImageId(currentSkinImageId);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    database.getReference().child("Pros").child("users").child(firebaseUser.getUid()).child("chosenSkinImageId").setValue(currentSkinImageId);
                 }
-                int skinID = user.getChosenSkinImageId();
-                currentSkin.setImageResource(skinID);
+
+                currentSkin.setImageResource(user.getChosenSkinImageId());
             }
 
             @Override
