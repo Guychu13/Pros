@@ -22,7 +22,7 @@ public class GameView extends SurfaceView implements Runnable{
         myBlockBitmap = Bitmap.createScaledBitmap(myBlockBitmap, 250, 50, false);
 
         Bitmap gameBallBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
-        gameBallBitmap = Bitmap.createScaledBitmap(gameBallBitmap, 50, 50, false);
+        gameBallBitmap = Bitmap.createScaledBitmap(gameBallBitmap, 70, 70, false);
 
         Bitmap backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_background_black);
         backgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap, windowWidth, windowHeight, false);
@@ -39,9 +39,9 @@ public class GameView extends SurfaceView implements Runnable{
         while (true){
             drawSurface();
             move();
-//            if (Thread.currentThread().isInterrupted()) {
-//                break;
-//            }
+            if(gameBall.checkCollision(myBlock)){
+                gameBall.setySpeed(gameBall.getySpeed() * -1);
+            }
         }
     }
 
