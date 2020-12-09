@@ -3,13 +3,28 @@ package com.example.pros;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-public abstract class Block extends GameObject {
+public class MyBlock extends GameObject {
 
     float xTarget;
-
-    public Block(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
+    public MyBlock(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
         super(bitmap, xPos, yPos, windowWidth, windowHeight);
-        xTarget = xPos;
+    }
+
+    public void move() {
+        if (xPos < xTarget) {
+            for(int i = 0; i < 20; i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
+                if(xPos + bitmap.getWidth() < windowWidth){
+                    xPos += 1;
+                }
+            }
+        }
+        if (xPos > xTarget) {
+            for(int i = 0; i < 20; i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
+                if(xPos > 0){
+                    xPos -= 1;
+                }
+            }
+        }
     }
 
     public boolean checkCollision(GameObject other) {//לנסות להחזיר כאן מערך שמחזיר את האיקס וואי של מיקום הפגיעה ואז לעשות במהלך המשחק בדיקה אצל הבלוק אם הכדור פגע בצד הימני או השמאלי שלו ואז שהכדור יזוז בהתאם
@@ -49,6 +64,4 @@ public abstract class Block extends GameObject {
     public void goToTarget(float x, float y) {
         xTarget = x;
     }
-
-    public abstract void move();
 }

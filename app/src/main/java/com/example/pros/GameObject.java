@@ -24,7 +24,7 @@ public abstract class GameObject {
         }
     }
 
-    public abstract void move();
+    //public abstract void move();
 
     public Bitmap getBitmap() {
         return bitmap;

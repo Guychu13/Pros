@@ -38,7 +38,7 @@ public class Ball extends GameObject {
         this.ySpeed = ySpeed;
     }
 
-    @Override
+//    @Override
     public void move() {
 //        if(xPos > windowWidth - bitmap.getWidth() - xSpeed){
 //            xSpeed *= -1;
@@ -83,5 +83,21 @@ public class Ball extends GameObject {
         if(yPos + bitmap.getHeight() >= boardHeight || yPos <= 0){
             ySpeed *= -1;
         }
+    }
+
+    public boolean checkSideCollision(Block myBlock) {
+
+//        if( (yPos <= myBlock.getYPos() + myBlock.getBitmap().getHeight() && yPos >= myBlock.getYPos()) &&
+//                (xPos == myBlock.getXPos() || xPos == myBlock.getXPos() + myBlock.getBitmap().getWidth())){
+//            return true;
+//        }
+//        if((yPos + bitmap.getHeight() <= myBlock.getYPos() + myBlock.getBitmap().getHeight() && yPos + bitmap.getHeight() >= myBlock.getYPos()) &&
+//                (xPos == myBlock.getXPos() || xPos == myBlock.getXPos() + myBlock.getBitmap().getWidth())){
+//            return true;
+//        }
+        if(yPos <= myBlock.getYPos() + myBlock.getBitmap().getHeight() && yPos >= myBlock.getYPos()){
+            return  true;
+        }
+        return false;
     }
 }

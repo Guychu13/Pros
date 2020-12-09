@@ -8,7 +8,6 @@ public class Background extends GameObject {
         super(bitmap, xPos, yPos, windowWidth, windowHeight);
     }
 
-    @Override
     public void move() {
 
     }
