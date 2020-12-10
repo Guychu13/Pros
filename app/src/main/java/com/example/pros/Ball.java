@@ -46,7 +46,9 @@ public class Ball extends GameObject {
         if (xPos + xSpeed < 0){
             xSpeed = 10;
         }
-        xPos = xPos + xSpeed;
+        if(xPos + xSpeed > 0 || xPos + bitmap.getWidth() + xSpeed < windowWidth) {
+            xPos = xPos + xSpeed;
+        }
 //        if(yPos > windowHeight - bitmap.getHeight() - ySpeed){
 //            ySpeed *= -1;
 //        }
