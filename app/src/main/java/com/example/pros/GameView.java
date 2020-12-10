@@ -1,12 +1,16 @@
 package com.example.pros;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -33,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         myBlock = new MyBlock(myBlockBitmap, (int)(windowWidth * 0.5) - (myBlockBitmap.getWidth() / 2) , (int)(windowHeight * 0.9), windowWidth, windowHeight);
         enemyCpuBlock = new EnemyCpuBlock(myBlockBitmap, (int)(windowWidth * 0.5) - (myBlockBitmap.getWidth() / 2) , (int)(windowHeight * 0.1), windowWidth, windowHeight);
-        gameBall = new Ball(gameBallBitmap, (int)(windowWidth * 0.5) - (myBlockBitmap.getWidth() / 2), (int)(windowHeight * 0.5) - (gameBallBitmap.getHeight() / 2), windowWidth, windowHeight);
+        gameBall = new Ball(gameBallBitmap, (int)(windowWidth * 0.5) - (gameBallBitmap.getWidth() / 2), (int)(windowHeight * 0.5) - (gameBallBitmap.getHeight() / 2), windowWidth, windowHeight);
         gameBackground = new Background(backgroundBitmap, 0, 0, windowWidth, windowHeight);
         gameTread.start();
     }
@@ -41,15 +45,34 @@ public class GameView extends SurfaceView implements Runnable{
 
     @Override
     public void run() {
+        drawSurface();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                resetGame();
+                giveBallInitialSpeed();
+            }
+        }, 2000);
+
         while (true){
-            drawSurface();
-            move();
             if(gameBall.checkCollision(myBlock) || gameBall.checkCollision(enemyCpuBlock)){
                 gameBall.setySpeed(gameBall.getySpeed() * -1);
 //                int[] collisionLocation = myBlock.getCollisionLocation(gameBall);
 //                int xCollision = collisionLocation[0];
 //                gameBall.setxSpeed(gameBall.getxSpeed() * -1);
             }
+            if(gameBall.goalScored()){
+                resetGame();
+                drawSurface();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                giveBallInitialSpeed();
+            }
+            drawSurface();
+            move();
         }
     }
 
@@ -84,5 +107,18 @@ public class GameView extends SurfaceView implements Runnable{
                 break;
         }
         return true;
+    }
+
+    public void resetGame(){
+        gameBall.setXPos((int)(gameBall.getWindowWidth() * 0.5) - (gameBall.getBitmap().getWidth() / 2));
+        gameBall.setYPos((int)(gameBall.getWindowHeight() * 0.5) - (gameBall.getBitmap().getHeight() / 2));
+        myBlock.setXPos((int)(myBlock.getWindowWidth() * 0.5) - (myBlock.getBitmap().getWidth() / 2));
+        enemyCpuBlock.setXPos((int)(enemyCpuBlock.getWindowWidth() * 0.5) - (enemyCpuBlock.getBitmap().getWidth() / 2));
+        drawSurface();
+    }
+
+    public void giveBallInitialSpeed(){
+        gameBall.setxSpeed(10);
+        gameBall.setySpeed(10);
     }
 }

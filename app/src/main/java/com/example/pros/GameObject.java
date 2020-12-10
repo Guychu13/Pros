@@ -49,4 +49,36 @@ public abstract class GameObject {
     public void setYPos(int yPos) {
         this.yPos = yPos;
     }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public int getWindowWidth() {
+        return windowWidth;
+    }
+
+    public int getWindowHeight() {
+        return windowHeight;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public void setWindowWidth(int windowWidth) {
+        this.windowWidth = windowWidth;
+    }
+
+    public void setWindowHeight(int windowHeight) {
+        this.windowHeight = windowHeight;
+    }
 }

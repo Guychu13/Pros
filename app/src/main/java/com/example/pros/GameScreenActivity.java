@@ -47,6 +47,7 @@ public class GameScreenActivity extends AppCompatActivity {
         frameLayout = findViewById(R.id.frameLayout_gameScreen_gameFrameLayout);
     }
 
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

@@ -10,8 +10,8 @@ public class Ball extends GameObject {
     public Ball(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
         super(bitmap, xPos, yPos, windowWidth, windowHeight);
         lastPlayerTouched = 0;
-        xSpeed = 10;
-        ySpeed = 10;
+        xSpeed = 0;
+        ySpeed = 0;
     }
 
     public int getLastPlayerTouched() {
@@ -47,14 +47,15 @@ public class Ball extends GameObject {
             xSpeed = 10;
         }
         xPos = xPos + xSpeed;
-
 //        if(yPos > windowHeight - bitmap.getHeight() - ySpeed){
 //            ySpeed *= -1;
 //        }
         if (yPos + ySpeed < 0){
             ySpeed = 10;
         }
-        yPos = yPos + ySpeed;
+        if(yPos + ySpeed > 0 || yPos + bitmap.getHeight() + ySpeed < windowHeight){
+            yPos = yPos + ySpeed;
+        }
 
         ballIfCollisionSideBoarders(windowWidth, windowHeight);
     }
@@ -83,6 +84,13 @@ public class Ball extends GameObject {
         if(yPos + bitmap.getHeight() >= boardHeight || yPos <= 0){
             ySpeed *= -1;
         }
+    }
+
+    public boolean goalScored(){
+        if(yPos + bitmap.getHeight() >= windowHeight || yPos <= 0){
+            return true;
+        }
+        return false;
     }
 
     public boolean checkSideCollision(Block myBlock) {
