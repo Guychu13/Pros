@@ -3,9 +3,11 @@ package com.example.pros;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +25,7 @@ public class GameScreenActivity extends AppCompatActivity {
     private GameView gameView;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
+    private TextView scoreTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,8 @@ public class GameScreenActivity extends AppCompatActivity {
             }
         });
         frameLayout = findViewById(R.id.frameLayout_gameScreen_gameFrameLayout);
+        scoreTextView = findViewById(R.id.textView_gameScreen_scoreTextVIew);
+        scoreTextView.setText("2:0");
     }
 
 
@@ -53,20 +58,17 @@ public class GameScreenActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         windowHeight = frameLayout.getHeight();
         windowWidth = frameLayout.getWidth();
-        gameView = new GameView(this, windowHeight, windowWidth, userCurrentSkinImageId);
+        gameView = new GameView(this, windowHeight, windowWidth, userCurrentSkinImageId, new ScoreHandler());
         frameLayout.addView(gameView);
     }
 
-//    @Override
-//    public void onPause(){
-//        super.onPause();
-//        gameView.gameTread.interrupt();
-//        finish();
-//    }
+    public class ScoreHandler extends Handler {
 
-//    @Override
-//    public void onBackPressed() {
-//
-//    }
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            String scoreMessageString = msg.getData().getString("score_string");
+            scoreTextView.setText(scoreMessageString);
+        }
+    }
 
 }

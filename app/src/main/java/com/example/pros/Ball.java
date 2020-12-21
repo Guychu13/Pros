@@ -88,11 +88,14 @@ public class Ball extends GameObject {
         }
     }
 
-    public boolean goalScored(){
-        if(yPos + bitmap.getHeight() >= windowHeight || yPos <= 0){
-            return true;
+    public int whoScored(){
+        if(yPos + bitmap.getHeight() >= windowHeight){
+            return 2;
         }
-        return false;
+        if(yPos <= 0){
+            return 1;
+        }
+        return 0;
     }
 
     public boolean checkSideCollision(Block myBlock) {

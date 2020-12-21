@@ -6,11 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Handler;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -19,9 +21,11 @@ public class GameView extends SurfaceView implements Runnable{
     private EnemyCpuBlock enemyCpuBlock;
     private Ball gameBall;
     private Background gameBackground;
-    public GameView(Context context, int windowHeight, int windowWidth, int myPlayerSkinImageID) {
+    private GameScreenActivity.ScoreHandler scoreHandler;
+    public GameView(Context context, int windowHeight, int windowWidth, int myPlayerSkinImageID, GameScreenActivity.ScoreHandler scoreHandler) {
         super(context);
 
+        this.scoreHandler = scoreHandler;
         gameTread = new Thread(this);
         Bitmap myBlockBitmap = BitmapFactory.decodeResource(getResources(), myPlayerSkinImageID);
         myBlockBitmap = Bitmap.createScaledBitmap(myBlockBitmap, 250, 50, false);
@@ -40,11 +44,13 @@ public class GameView extends SurfaceView implements Runnable{
         gameBall = new Ball(gameBallBitmap, (int)(windowWidth * 0.5) - (gameBallBitmap.getWidth() / 2), (int)(windowHeight * 0.5) - (gameBallBitmap.getHeight() / 2), windowWidth, windowHeight);
         gameBackground = new Background(backgroundBitmap, 0, 0, windowWidth, windowHeight);
         gameTread.start();
+
     }
 
 
     @Override
     public void run() {
+
         drawSurface();
         new Timer().schedule(new TimerTask() {
             @Override
@@ -53,7 +59,8 @@ public class GameView extends SurfaceView implements Runnable{
                 giveBallInitialSpeed();
             }
         }, 2000);
-
+//        resetGame();
+//        giveBallInitialSpeed();
         while (true){
             if(gameBall.checkCollision(myBlock) || gameBall.checkCollision(enemyCpuBlock)){
                 gameBall.setySpeed(gameBall.getySpeed() * -1);
@@ -61,18 +68,26 @@ public class GameView extends SurfaceView implements Runnable{
 //                int xCollision = collisionLocation[0];
 //                gameBall.setxSpeed(gameBall.getxSpeed() * -1);
             }
-            if(gameBall.goalScored()){
+            if(gameBall.whoScored() == 1 || gameBall.whoScored() == 2){
+                Message goalMessage = scoreHandler.obtainMessage();
+                if(gameBall.whoScored() == 1){
+                    myBlock.setScore(myBlock.getScore() + 1);
+                }
+                if (gameBall.whoScored() == 2){
+                    enemyCpuBlock.setScore(enemyCpuBlock.getScore() + 1);
+                }
                 resetGame();
+                goalMessage.getData().putString("score_string", "" + myBlock.getScore() + "-" + enemyCpuBlock.getScore());
+                scoreHandler.sendMessage(goalMessage);
                 drawSurface();
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//                giveBallInitialSpeed();
             }
-            drawSurface();
             move();
+            drawSurface();
         }
     }
 

@@ -6,8 +6,10 @@ import android.graphics.Color;
 public class MyBlock extends GameObject {
 
     float xTarget;
+    int score;
     public MyBlock(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
         super(bitmap, xPos, yPos, windowWidth, windowHeight);
+        this.score = 0;
     }
 
     public void move() {
@@ -63,5 +65,13 @@ public class MyBlock extends GameObject {
 
     public void goToTarget(float x, float y) {
         xTarget = x;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

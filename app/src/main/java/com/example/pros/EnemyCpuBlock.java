@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 
 public class EnemyCpuBlock extends GameObject{
 
+    int score;
     public EnemyCpuBlock(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
         super(bitmap, xPos, yPos, windowWidth, windowHeight);
+        this.score = 0;
     }
 
     public void move(int xTarget) {
@@ -23,5 +25,13 @@ public class EnemyCpuBlock extends GameObject{
                 }
             }
         }
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
