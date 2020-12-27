@@ -45,7 +45,7 @@ public class MyBlock extends GameObject {
         return false;
     }
 
-    public int[] getCollisionLocation(GameObject other){
+    public int getCollisionXLocation(GameObject other){
         int left = Math.max(xPos, other.xPos);
         int right = Math.min(xPos + bitmap.getWidth(), other.xPos + other.bitmap.getWidth());
         int top = Math.max(yPos, other.yPos);
@@ -54,13 +54,26 @@ public class MyBlock extends GameObject {
             for (int col = top; col < bottom; col++) {
                 if (bitmap.getPixel(row - xPos, col - yPos) != Color.TRANSPARENT &&
                         other.bitmap.getPixel(row - other.xPos, col - other.yPos) != Color.TRANSPARENT) {
-                    int[] arr = {row, col};
-                    return arr;
+                    return xPos;
+//                    int[] arr = {row, col};
+//                    return arr;
                 }
             }
         }
-        int [] arr = {0,0};
-        return arr;
+        return 0;
+    }
+
+    public String getSideCollisionWithBall(int xCollision){
+
+        if(xPos <= xCollision && xCollision < (xPos + bitmap.getWidth()) / 2){
+            return "left";
+        }
+        else if((xPos + bitmap.getWidth()) / 2 <= xCollision && xCollision <= xPos + bitmap.getWidth()){
+            return "right";
+        }
+        else{
+            return "none";
+        }
     }
 
     public void goToTarget(float x, float y) {

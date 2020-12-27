@@ -68,9 +68,27 @@ public class GameView extends SurfaceView implements Runnable{
         while (!gameOver){
             if(gameBall.checkCollision(myBlock) || gameBall.checkCollision(enemyCpuBlock)){
                 gameBall.setySpeed(gameBall.getySpeed() * -1);
-//                int[] collisionLocation = myBlock.getCollisionLocation(gameBall);
-//                int xCollision = collisionLocation[0];
-//                gameBall.setxSpeed(gameBall.getxSpeed() * -1);
+                int collisionXLocation = myBlock.getCollisionXLocation(gameBall);
+                if(myBlock.getXPos() <= collisionXLocation && collisionXLocation < (myBlock.getXPos() + myBlock.getBitmap().getWidth()) / 2){
+                    if(gameBall.getxSpeed() > 0){
+                        gameBall.setxSpeed(gameBall.getxSpeed() * -1);
+                    }
+                }
+                else if((myBlock.getXPos() + myBlock.getBitmap().getWidth()) / 2 <= collisionXLocation && collisionXLocation <= myBlock.getXPos() + myBlock.getBitmap().getWidth()){
+                    if(gameBall.getxSpeed() < 0){
+                        gameBall.setxSpeed(gameBall.getxSpeed() * -1);
+                    }
+                }
+//                if(myBlock.getSideCollisionWithBall(collisionXLocation).equals("right")){
+//                    if(gameBall.getxSpeed() < 0){
+//                        gameBall.setxSpeed(gameBall.getxSpeed() * -1);
+//                    }
+//                }
+//                else if(myBlock.getSideCollisionWithBall(collisionXLocation).equals("left")){
+//                    if(gameBall.getxSpeed() > 0){
+//                        gameBall.setxSpeed(gameBall.getxSpeed() * -1);
+//                    }
+//                }
             }
             if(someoneScored()){
                 Message goalMessage = scoreHandler.obtainMessage();
