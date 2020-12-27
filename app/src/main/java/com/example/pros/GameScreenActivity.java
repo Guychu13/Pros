@@ -25,7 +25,9 @@ public class GameScreenActivity extends AppCompatActivity {
     private GameView gameView;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
-    private TextView scoreTextView;
+    private TextView scoreTextView, timerTextView;
+    private int gameTimerSecondsLeft;
+    private int timerPauseDurationMilliSecs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,12 @@ public class GameScreenActivity extends AppCompatActivity {
         });
         frameLayout = findViewById(R.id.frameLayout_gameScreen_gameFrameLayout);
         scoreTextView = findViewById(R.id.textView_gameScreen_scoreTextVIew);
-        scoreTextView.setText("2:0");
+        scoreTextView.setText("0-0");
+
+        timerTextView = findViewById(R.id.textView_gameScreen_timerTextVIew);
+        gameTimerSecondsLeft = 150;
+        timerTextView.setText("" + gameTimerSecondsLeft / 60 + ":" + gameTimerSecondsLeft % 60);
+        timerPauseDurationMilliSecs = 0;
     }
 
 
@@ -59,6 +66,7 @@ public class GameScreenActivity extends AppCompatActivity {
         windowHeight = frameLayout.getHeight();
         windowWidth = frameLayout.getWidth();
         gameView = new GameView(this, windowHeight, windowWidth, userCurrentSkinImageId, new ScoreHandler());
+        new Handler().postDelayed(new GameTimer(),2000);
         frameLayout.addView(gameView);
     }
 
@@ -68,7 +76,32 @@ public class GameScreenActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             String scoreMessageString = msg.getData().getString("score_string");
             scoreTextView.setText(scoreMessageString);
+            timerPauseDurationMilliSecs = 3000;
         }
     }
 
+    public class GameTimer implements Runnable {
+
+        @Override
+        public void run() {
+            if(timerPauseDurationMilliSecs != 0){
+                new Handler().postDelayed(new GameTimer(), timerPauseDurationMilliSecs);
+                timerPauseDurationMilliSecs = 0;
+            }
+            else{
+                new Handler().postDelayed(new GameTimer(),1000);
+                gameTimerSecondsLeft -=1;
+                if(gameTimerSecondsLeft % 60 < 10){
+                    timerTextView.setText("" + gameTimerSecondsLeft / 60 + ":0" + gameTimerSecondsLeft % 60);
+                }
+                else{
+                    timerTextView.setText("" + gameTimerSecondsLeft / 60 + ":" + gameTimerSecondsLeft % 60);
+                }
+                if(gameTimerSecondsLeft <= 0){
+                    gameView.setGameOver();
+                }
+            }
+
+        }
+    }
 }

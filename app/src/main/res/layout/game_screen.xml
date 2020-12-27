@@ -9,13 +9,36 @@
     android:layoutDirection="ltr">
 
     <TextView
+        android:id="@+id/textView_gameScreen_smileyTextVIew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/coming_soon"
+        android:text=":)"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_gameScreen_timerTextVIew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/coming_soon"
+        android:text="Timer"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView_gameScreen_smileyTextVIew"
+        app:layout_constraintStart_toEndOf="@+id/textView_gameScreen_scoreTextVIew"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView_gameScreen_scoreTextVIew"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/coming_soon"
         android:text="Score"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +48,8 @@
         android:layout_height="657dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_gameScreen_timerTextVIew">
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

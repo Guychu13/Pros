@@ -22,6 +22,8 @@ public class GameView extends SurfaceView implements Runnable{
     private Ball gameBall;
     private Background gameBackground;
     private GameScreenActivity.ScoreHandler scoreHandler;
+    private boolean gameOver;
+
     public GameView(Context context, int windowHeight, int windowWidth, int myPlayerSkinImageID, GameScreenActivity.ScoreHandler scoreHandler) {
         super(context);
 
@@ -45,6 +47,8 @@ public class GameView extends SurfaceView implements Runnable{
         gameBackground = new Background(backgroundBitmap, 0, 0, windowWidth, windowHeight);
         gameTread.start();
 
+        gameOver = false;
+
     }
 
 
@@ -61,14 +65,14 @@ public class GameView extends SurfaceView implements Runnable{
         }, 2000);
 //        resetGame();
 //        giveBallInitialSpeed();
-        while (true){
+        while (!gameOver){
             if(gameBall.checkCollision(myBlock) || gameBall.checkCollision(enemyCpuBlock)){
                 gameBall.setySpeed(gameBall.getySpeed() * -1);
 //                int[] collisionLocation = myBlock.getCollisionLocation(gameBall);
 //                int xCollision = collisionLocation[0];
 //                gameBall.setxSpeed(gameBall.getxSpeed() * -1);
             }
-            if(gameBall.whoScored() == 1 || gameBall.whoScored() == 2){
+            if(someoneScored()){
                 Message goalMessage = scoreHandler.obtainMessage();
                 if(gameBall.whoScored() == 1){
                     myBlock.setScore(myBlock.getScore() + 1);
@@ -104,6 +108,9 @@ public class GameView extends SurfaceView implements Runnable{
         }
     }
 
+    public void setGameOver(){
+        gameOver = true;
+    }
 
     private void move() {
         myBlock.move();
@@ -111,8 +118,13 @@ public class GameView extends SurfaceView implements Runnable{
         gameBall.move();
     }
 
+    private boolean someoneScored(){
+        return gameBall.whoScored() == 1 || gameBall.whoScored() == 2;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
 
         myBlock.goToTarget(event.getX(), event.getY());
         switch (event.getAction() & MotionEvent.ACTION_MASK){
