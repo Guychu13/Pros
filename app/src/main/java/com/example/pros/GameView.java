@@ -79,16 +79,6 @@ public class GameView extends SurfaceView implements Runnable{
                         gameBall.setxSpeed(gameBall.getxSpeed() * -1);
                     }
                 }
-//                if(myBlock.getSideCollisionWithBall(collisionXLocation).equals("right")){
-//                    if(gameBall.getxSpeed() < 0){
-//                        gameBall.setxSpeed(gameBall.getxSpeed() * -1);
-//                    }
-//                }
-//                else if(myBlock.getSideCollisionWithBall(collisionXLocation).equals("left")){
-//                    if(gameBall.getxSpeed() > 0){
-//                        gameBall.setxSpeed(gameBall.getxSpeed() * -1);
-//                    }
-//                }
             }
             if(someoneScored()){
                 Message goalMessage = scoreHandler.obtainMessage();
@@ -103,6 +93,7 @@ public class GameView extends SurfaceView implements Runnable{
                 scoreHandler.sendMessage(goalMessage);
                 drawSurface();
                 try {
+                    myBlock.setXTarget((int)(myBlock.getWindowWidth() * 0.5) - (myBlock.getBitmap().getWidth() / 2));
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

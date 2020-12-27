@@ -54,7 +54,7 @@ public class MyBlock extends GameObject {
             for (int col = top; col < bottom; col++) {
                 if (bitmap.getPixel(row - xPos, col - yPos) != Color.TRANSPARENT &&
                         other.bitmap.getPixel(row - other.xPos, col - other.yPos) != Color.TRANSPARENT) {
-                    return xPos;
+                    return row;
 //                    int[] arr = {row, col};
 //                    return arr;
                 }
@@ -86,5 +86,13 @@ public class MyBlock extends GameObject {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public float getXTarget() {
+        return xTarget;
+    }
+
+    public void setXTarget(float xTarget) {
+        this.xTarget = xTarget;
     }
 }

@@ -50,14 +50,6 @@ public abstract class GameObject {
         this.yPos = yPos;
     }
 
-    public int getxPos() {
-        return xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
     public int getWindowWidth() {
         return windowWidth;
     }
