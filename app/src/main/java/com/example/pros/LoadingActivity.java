@@ -21,7 +21,7 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_screen);
-        intent = new Intent(getApplicationContext(), AppService.class);
+        intent = new Intent(this, AppService.class);
         startService(intent);
         new Timer().schedule(new TimerTask() {
             @Override
