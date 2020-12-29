@@ -4,8 +4,10 @@
     package="com.example.pros">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -15,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameScreenActivity"></activity>
+        <activity android:name=".EnemyCpuBlockWinScreenActivity"></activity>
+        <activity android:name=".MyBlockWinScreenActivity" />
+        <activity android:name=".GameScreenActivity" />
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"

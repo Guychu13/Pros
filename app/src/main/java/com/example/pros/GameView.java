@@ -10,6 +10,9 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
@@ -22,6 +25,7 @@ public class GameView extends SurfaceView implements Runnable{
     private Ball gameBall;
     private Background gameBackground;
     private GameScreenActivity.ScoreHandler scoreHandler;
+//    private GameScreenActivity.FinalScoreHandler finalScoreHandler;
     private boolean gameOver;
 
     public GameView(Context context, int windowHeight, int windowWidth, int myPlayerSkinImageID, GameScreenActivity.ScoreHandler scoreHandler) {
@@ -90,6 +94,8 @@ public class GameView extends SurfaceView implements Runnable{
                 }
                 resetGame();
                 goalMessage.getData().putString("score_string", "" + myBlock.getScore() + "-" + enemyCpuBlock.getScore());
+                goalMessage.getData().putInt("my_block_score_int", myBlock.getScore());
+                goalMessage.getData().putInt("enemy_cpu_score_int", enemyCpuBlock.getScore());
                 scoreHandler.sendMessage(goalMessage);
                 drawSurface();
                 try {
@@ -102,6 +108,9 @@ public class GameView extends SurfaceView implements Runnable{
             move();
             drawSurface();
         }
+//        Message finalScoreMessage = finalScoreHandler.obtainMessage();
+//        finalScoreMessage.getData().putIntegerArrayList("final_score", new ArrayList<Integer>(Arrays.asList(myBlock.getScore(), enemyCpuBlock.getScore())));
+//        finalScoreHandler.sendMessage(finalScoreMessage);
     }
 
     private void drawSurface() {
