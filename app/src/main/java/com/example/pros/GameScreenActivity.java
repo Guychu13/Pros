@@ -31,10 +31,13 @@ public class GameScreenActivity extends AppCompatActivity {
     private int timerPauseDurationMilliSecs;
     private int myBlockScore, enemyCpuBlockScore;
     boolean didOvertime;
+    private boolean appeared;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_screen);
+
+        appeared = false;
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
@@ -102,10 +105,8 @@ public class GameScreenActivity extends AppCompatActivity {
 
     public class GameTimer implements Runnable {
 
-//        private Boolean running = true;
         @Override
         public void run() {
-//            while (running){
 
                 if(timerPauseDurationMilliSecs != 0){
                     new Handler().postDelayed(new GameTimer(), timerPauseDurationMilliSecs);
@@ -122,16 +123,16 @@ public class GameScreenActivity extends AppCompatActivity {
                     }
                     if(gameTimerSecondsLeft <= 0){
 
-                        if(myBlockScore > enemyCpuBlockScore){
+                        if(myBlockScore > enemyCpuBlockScore && !appeared){
                             gameView.setGameOver();
                             startActivity(new Intent(GameScreenActivity.this, MyBlockWinScreenActivity.class));
-//                            running = false;
+                            appeared = true;
 
                         }
-                        else if(myBlockScore < enemyCpuBlockScore){
+                        else if(myBlockScore < enemyCpuBlockScore && !appeared){
                             gameView.setGameOver();
                             startActivity(new Intent(GameScreenActivity.this, EnemyCpuBlockWinScreenActivity.class));
-//                            running = false;
+                            appeared = true;
                         }
                         else{
                             if(didOvertime){
