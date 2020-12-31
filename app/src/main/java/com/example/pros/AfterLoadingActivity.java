@@ -12,6 +12,7 @@ import android.app.*;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +30,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,12 +52,7 @@ public class AfterLoadingActivity extends AppCompatActivity {
     private Dialog usernameDialog;
     private EditText usernameDialogEditText;
     private int PICK_IMAGE =100;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,6 @@ public class AfterLoadingActivity extends AppCompatActivity {
         chooseDialogButton = usernameDialog.findViewById(R.id.imageButton_usernamePickDialog_choose);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
 
         if(currentUser != null) {
             startActivity(new Intent(AfterLoadingActivity.this, MainScreenActivity.class));
@@ -127,6 +124,15 @@ public class AfterLoadingActivity extends AppCompatActivity {
                                 usernameDialog.show();
                                 usernameDialog.setCancelable(false);
                                 usernameDialog.setCanceledOnTouchOutside(false);
+
+                                addImageButton = usernameDialog.findViewById(R.id.imageButton_usernamePickDialog_addImage);
+                                addImageButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        openGallery();
+                                    }
+                                });
+
                                 chooseDialogButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -139,6 +145,7 @@ public class AfterLoadingActivity extends AppCompatActivity {
                                             Intent i = new Intent(AfterLoadingActivity.this, MainScreenActivity.class);
                                             User user = new User(usernameChosen, 0, 1, R.drawable.skin_basic, true);
                                             currentUser = mAuth.getCurrentUser();
+                                            uploadPhotoToFirebase(currentUser.getUid());
                                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                                             DatabaseReference myRef = database.getReference().child("Pros").child("users").child(currentUser.getUid());
                                             myRef.setValue(user);
@@ -155,6 +162,40 @@ public class AfterLoadingActivity extends AppCompatActivity {
             );
         }
     }
+
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            imageUri = data.getData();
+        }
+    }
+
+    private void uploadPhotoToFirebase(final String id){
+
+        FirebaseStorage.getInstance().getReference().child(id).putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if(task.isSuccessful()){
+                    FirebaseStorage.getInstance().getReference().child(id).getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            String url = task.getResult().toString();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            database.getReference().child("Pros").child("users").child(currentUser.getUid()).child("photoImageURL").setValue(url);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
 //    protected void openGalleryGroup() {
 //        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 //        startActivityForResult(gallery, PICK_IMAGE);

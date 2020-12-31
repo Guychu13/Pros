@@ -7,6 +7,7 @@ public class User {
     private int numOfSkins;
     private int chosenSkinImageId;
     private boolean musicOn;
+    private String photoImageURL;
 
     public User() {
 
@@ -36,6 +37,10 @@ public class User {
         return chosenSkinImageId;
     }
 
+    public String getPhotoImageURL() {
+        return photoImageURL;
+    }
+
     public boolean isMusicOn() {
         return musicOn;
     }
@@ -58,5 +63,9 @@ public class User {
 
     public void setMusicOn(boolean musicOn) {
         this.musicOn = musicOn;
+    }
+
+    public void setPhotoImageURL(String photoImageURL) {
+        this.photoImageURL = photoImageURL;
     }
 }
