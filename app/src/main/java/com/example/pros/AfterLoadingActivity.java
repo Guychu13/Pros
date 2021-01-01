@@ -52,7 +52,7 @@ public class AfterLoadingActivity extends AppCompatActivity {
     private Dialog usernameDialog;
     private EditText usernameDialogEditText;
     private int PICK_IMAGE =100;
-    Uri imageUri;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class AfterLoadingActivity extends AppCompatActivity {
         chooseDialogButton = usernameDialog.findViewById(R.id.imageButton_usernamePickDialog_choose);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-
+        imageUri = null;//בשביל התנאי בדיאלוג שזה לא יהיה נל
         if(currentUser != null) {
             startActivity(new Intent(AfterLoadingActivity.this, MainScreenActivity.class));
         }
@@ -137,8 +137,8 @@ public class AfterLoadingActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         usernameChosen = usernameDialogEditText.getText().toString();
-                                        if(usernameChosen.matches("")){
-                                            Toast.makeText(AfterLoadingActivity.this, "Please choose a username", Toast.LENGTH_SHORT).show();
+                                        if(usernameChosen.matches("") || imageUri == null){
+                                            Toast.makeText(AfterLoadingActivity.this, "Please choose a username and a profile picture", Toast.LENGTH_SHORT).show();
                                         }
                                         else {
                                             usernameChosen = usernameDialogEditText.getText().toString();

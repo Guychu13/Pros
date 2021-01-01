@@ -25,7 +25,6 @@ public class GameView extends SurfaceView implements Runnable{
     private Ball gameBall;
     private Background gameBackground;
     private GameScreenActivity.ScoreHandler scoreHandler;
-//    private GameScreenActivity.FinalScoreHandler finalScoreHandler;
     private boolean gameOver;
 
     public GameView(Context context, int windowHeight, int windowWidth, int myPlayerSkinImageID, GameScreenActivity.ScoreHandler scoreHandler) {
@@ -74,12 +73,12 @@ public class GameView extends SurfaceView implements Runnable{
                 gameBall.setySpeed(gameBall.getySpeed() * -1);
                 int collisionXLocation = myBlock.getCollisionXLocation(gameBall);
                 if(myBlock.getXPos() <= collisionXLocation && collisionXLocation < (myBlock.getXPos() + myBlock.getBitmap().getWidth()) / 2){
-                    if(gameBall.getxSpeed() > 0){
+                    if(gameBall.getxSpeed() < 0){
                         gameBall.setxSpeed(gameBall.getxSpeed() * -1);
                     }
                 }
                 else if((myBlock.getXPos() + myBlock.getBitmap().getWidth()) / 2 <= collisionXLocation && collisionXLocation <= myBlock.getXPos() + myBlock.getBitmap().getWidth()){
-                    if(gameBall.getxSpeed() < 0){
+                    if(gameBall.getxSpeed() > 0){
                         gameBall.setxSpeed(gameBall.getxSpeed() * -1);
                     }
                 }
@@ -163,7 +162,7 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     public void giveBallInitialSpeed(){
-        gameBall.setxSpeed(10);
-        gameBall.setySpeed(10);
+        gameBall.setxSpeed(16);
+        gameBall.setySpeed(14);
     }
 }

@@ -60,7 +60,7 @@ public class GameScreenActivity extends AppCompatActivity {
         scoreTextView.setText("0-0");
 
         timerTextView = findViewById(R.id.textView_gameScreen_timerTextVIew);
-        gameTimerSecondsLeft = 12;
+        gameTimerSecondsLeft = 150;
         timerTextView.setText("" + gameTimerSecondsLeft / 60 + ":" + gameTimerSecondsLeft % 60);
         timerPauseDurationMilliSecs = 0;
         myBlockScore = 0;
@@ -140,8 +140,8 @@ public class GameScreenActivity extends AppCompatActivity {
 //                            new Handler().postDelayed(new GameTimer(),1000);
                             }
                             else{
-                                gameTimerSecondsLeft = 05;
-                                smileyTextView.setText("overtime q.p");
+                                gameTimerSecondsLeft = 30;
+                                smileyTextView.setText("overtime");
                                 didOvertime = true;
                                 new Handler().postDelayed(new GameTimer(),0);
                             }

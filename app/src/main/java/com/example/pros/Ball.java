@@ -40,26 +40,24 @@ public class Ball extends GameObject {
 
 //    @Override
     public void move() {
-//        if(xPos > windowWidth - bitmap.getWidth() - xSpeed){
-//            xSpeed *= -1;
-//        }
-        if (xPos + xSpeed < 0){
-            xSpeed = 10;
-        }
-        if(xPos + xSpeed > 0 || xPos + bitmap.getWidth() + xSpeed < windowWidth) {
-            xPos = xPos + xSpeed;
-        }
-//        if(yPos > windowHeight - bitmap.getHeight() - ySpeed){
-//            ySpeed *= -1;
-//        }
-        if (yPos + ySpeed < 0){
-            ySpeed = 10;
-        }
-        if(yPos + ySpeed > 0 || yPos + bitmap.getHeight() + ySpeed < windowHeight){
-            yPos = yPos + ySpeed;
-        }
 
         ballIfCollisionSideBoarders(windowWidth, windowHeight);
+        for(int i = 0; i < Math.abs(xSpeed); i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
+            if(xSpeed > 0 && xPos + bitmap.getWidth() < windowWidth){
+                xPos += 1;
+            }
+            else if(xSpeed < 0 && xPos > 0){
+                xPos -= 1;
+            }
+        }
+        for(int i = 0; i < Math.abs(ySpeed); i++){
+            if(ySpeed > 0 && yPos + bitmap.getHeight() < windowHeight){
+                yPos += 1;
+            }
+            else if(ySpeed < 0 && yPos > 0){
+                yPos -= 1;
+            }
+        }
     }
 
     public boolean checkCollision(GameObject other) {
@@ -80,12 +78,15 @@ public class Ball extends GameObject {
 
     public void ballIfCollisionSideBoarders(int boardWidth, int boardHeight) {
 
-        if(xPos + bitmap.getWidth() >= boardWidth || xPos <= 0){
+        if(xPos + bitmap.getWidth() >= boardWidth && xSpeed > 0){
             xSpeed *= -1;
         }
-        if(yPos + bitmap.getHeight() >= boardHeight || yPos <= 0){
-            ySpeed *= -1;
+        if(xPos <= 0 && xSpeed < 0){
+            xSpeed *= -1;
         }
+//        if(yPos + bitmap.getHeight() >= boardHeight || yPos <= 0){
+//            ySpeed *= -1;
+//        }
     }
 
     public int whoScored(){
@@ -96,21 +97,5 @@ public class Ball extends GameObject {
             return 1;
         }
         return 0;
-    }
-
-    public boolean checkSideCollision(Block myBlock) {
-
-//        if( (yPos <= myBlock.getYPos() + myBlock.getBitmap().getHeight() && yPos >= myBlock.getYPos()) &&
-//                (xPos == myBlock.getXPos() || xPos == myBlock.getXPos() + myBlock.getBitmap().getWidth())){
-//            return true;
-//        }
-//        if((yPos + bitmap.getHeight() <= myBlock.getYPos() + myBlock.getBitmap().getHeight() && yPos + bitmap.getHeight() >= myBlock.getYPos()) &&
-//                (xPos == myBlock.getXPos() || xPos == myBlock.getXPos() + myBlock.getBitmap().getWidth())){
-//            return true;
-//        }
-        if(yPos <= myBlock.getYPos() + myBlock.getBitmap().getHeight() && yPos >= myBlock.getYPos()){
-            return  true;
-        }
-        return false;
     }
 }

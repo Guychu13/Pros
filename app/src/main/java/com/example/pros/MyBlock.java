@@ -5,23 +5,25 @@ import android.graphics.Color;
 
 public class MyBlock extends GameObject {
 
-    float xTarget;
-    int score;
+    private float xTarget;
+    private int score;
+    private int xSpeed;
     public MyBlock(Bitmap bitmap, int xPos, int yPos, int windowWidth, int windowHeight) {
         super(bitmap, xPos, yPos, windowWidth, windowHeight);
         this.score = 0;
+        xSpeed = 15;
     }
 
     public void move() {
         if (xPos < xTarget) {
-            for(int i = 0; i < 20; i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
+            for(int i = 0; i < Math.abs(xSpeed); i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
                 if(xPos + bitmap.getWidth() < windowWidth){
                     xPos += 1;
                 }
             }
         }
         if (xPos > xTarget) {
-            for(int i = 0; i < 20; i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
+            for(int i = 0; i < Math.abs(xSpeed); i++){//כדי שאם יש לחיצה ארוכה הוא יזוז בצעד צעד עד שהוא לא יכול יותר. אם זה זז 20 20 אז הוא לא יסכים לזוז אם הוא נגיד רחוק 18 מהמסגרת
                 if(xPos > 0){
                     xPos -= 1;
                 }
