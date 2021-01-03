@@ -61,5 +61,4 @@ public class SkinsScreenActivity extends AppCompatActivity {
             }
         });
     }
-
 }
